@@ -54,6 +54,9 @@ Store the receipt as a PDF file
 
 Take a screenshot of the robot
     [Arguments]    ${order_number}
+    Wait Until Element Is Visible    css:#robot-preview-image > img:nth-child(1)
+    Wait Until Element Is Visible    css:#robot-preview-image > img:nth-child(2)
+    Wait Until Element Is Visible    css:#robot-preview-image > img:nth-child(3)
     Screenshot    id:robot-preview-image    ${OUTPUT_DIR}${/}robot-preview-image/${order_number}.png
     [Return]    ${OUTPUT_DIR}${/}robot-preview-image/${order_number}.png
 
