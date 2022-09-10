@@ -10,6 +10,7 @@ Library    RPA.HTTP
 Library    RPA.Tables
 Library    RPA.PDF
 Library    RPA.Archive
+Library    RPA.Dialogs
 
 *** Variables ***
 ${FILE_NAME}=    orders.csv
@@ -19,7 +20,12 @@ Open the robot order website
     Open Chrome Browser    https://robotsparebinindustries.com/#/robot-order
     
 Get orders
-    Download    https://robotsparebinindustries.com/${FILE_NAME}   overwrite=True    target_file=${OUTPUT_DIR}
+    Add heading    Enter your url of order file .csv
+    Add text    See link for documentation
+    Add text input    url    label=File .csv
+    ${order_url} =    Run dialog
+    # https://robotsparebinindustries.com
+    Download    ${order_url.url}/${FILE_NAME}   overwrite=True    target_file=${OUTPUT_DIR}
     ${orders_csv}=    Read table from CSV    ${OUTPUT_DIR}${/}${FILE_NAME}
     [Return]    ${orders_csv}
 
@@ -68,6 +74,7 @@ Go to order another robot
     Click Button    Order another robot
     
 Create a ZIP file of the receipts
+    [Teardown]
     Archive Folder With Zip    ${OUTPUT_DIR}${/}receipt    ${OUTPUT_DIR}${/}receipt.zip
 
 *** Tasks ***
